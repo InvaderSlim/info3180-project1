@@ -5,8 +5,16 @@ Werkzeug Documentation:  http://werkzeug.pocoo.org/documentation/
 This file creates your application.
 """
 
+import os
 from app import app
-from flask import render_template, request, redirect, url_for
+from flask import render_template, request, redirect, url_for, flash, session, abort, send_from_directory
+from werkzeug.utils import secure_filename
+from flask import Flask, request, jsonify
+from flask_sqlalchemy import SQLAlchemy
+
+db = SQLAlchemy(app)
+from .forms import NewPropertyForm
+from .models import Properties
 
 
 ###
@@ -24,6 +32,84 @@ def about():
     """Render the website's about page."""
     return render_template('about.html', name="Mary Jane")
 
+@app.route('/property', methods=["GET", "POST"])
+def property():
+    """Add new property form"""
+    root_dir = os.getcwd()
+    form = NewPropertyForm()
+
+        # Validate file upload on submit
+    if request.method == 'POST' and form.validate_on_submit():
+
+        img = form.photo.data
+        filename = secure_filename(img.filename)
+        
+        if filename != '':
+            file_ext = os.path.splitext(filename)[1]
+            if file_ext not in app.config['ALLOWED_EXTENSIONS']:
+                flash('Invalid format, try again')
+
+
+        title=request.form['title']
+        description=request.form['description']
+        rooms=request.form['rooms']
+        baths=request.form['baths']
+        price=request.form['price']
+        property_type=request.form['property_type']
+        location=request.form['location']
+
+        # title = form.title.data
+        # description = form.description.data
+        # rooms = form.rooms.data
+        # baths = form.baths.data
+        # price = form.price.data
+        # property_type = form.property_type.data
+        # location = form.location.data
+
+        properties = Properties(
+            title,
+            description,
+            rooms,
+            baths,
+            price,
+            property_type,
+            location,
+            filename
+        )
+
+        db.session.add(properties)
+        db.session.commit()    
+        
+        img.save(os.path.join( 
+            root_dir, app.config['UPLOAD_FOLDER'], filename
+        ))
+
+        
+        flash('Property Saved', 'success')
+        return redirect(url_for('home'))
+    
+    if request.method == 'GET':
+        return render_template('property.html', form=form)
+
+    return render_template('property.html', form=form, template="form-template")
+
+@app.route('/properties/')
+def properties():
+    """Display all properties"""
+    properties = Properties.query.all()
+    return render_template('properties.html', properties=properties)
+
+@app.route("/view_property/<propertyid>")
+def view_property(propertyid):
+    property_ = Properties.query.get(int(propertyid))
+    return render_template('view_property.html', property_=property_)
+    
+
+
+@app.route("/get_image/<filename>")
+def get_image(filename):
+    root_dir=os.getcwd()
+    return send_from_directory(os.path.join(root_dir, app.config['UPLOAD_FOLDER']), filename)
 
 ###
 # The functions below should be applicable to all Flask apps.

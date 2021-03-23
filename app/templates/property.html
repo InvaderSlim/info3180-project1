@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block main %}
+<h1 class="page-header">Add New Property</h1>
+
+
+<div id="container">
+    {# Add the appropriate method and enctype attributes to the form tag to allow for file uploads #}
+    <form method="POST" action="{{ url_for('property') }}" enctype="multipart/form-data">
+
+        {# Add the file upload field as you learnt for Flask-WTF #}
+        <fieldset>
+            {{form.title.label}} <br>
+            {{form.title}}
+        </fieldset>
+        <fieldset>
+            {{form.description.label}} <br>
+            {{form.description}}
+        </fieldset>
+        <fieldset>
+            {{form.rooms.label}}
+            {{form.rooms}}
+        </fieldset>
+        <fieldset>
+            {{form.baths.label}}
+            {{form.baths}}
+        </fieldset>
+        <fieldset>
+            {{form.price.label}}
+            {{form.price}}
+        </fieldset>
+        <fieldset>
+            {{form.property_type.label}}
+            {{form.property_type}}
+        </fieldset>
+        <fieldset>
+            {{form.location.label}}
+            {{form.location}}
+        </fieldset>
+        <fieldset>
+            {{form.photo.label}}
+            {{form.photo}}
+            <!-- <input type="file" name="upload" id="choose"> -->
+        </fieldset>
+        
+
+        {{ form.csrf_token }}
+
+        <button type="submit" name="submit" class="btn btn-primary">Add Property</button>
+        <!-- {{ form.submit(value='add property')}} -->
+    </form>
+</div>
+{% endblock %}
