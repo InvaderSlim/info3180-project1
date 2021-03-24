@@ -85,12 +85,13 @@ def property():
         ))
 
         
-        flash('Property Saved', 'success')
-        return redirect(url_for('home'))
+        flash('Property Listed', 'success')
+        return redirect(url_for('properties'))
+    
     
     if request.method == 'GET':
         return render_template('property.html', form=form)
-
+    flash("Error in form",'danger')
     return render_template('property.html', form=form, template="form-template")
 
 @app.route('/properties/')

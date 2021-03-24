@@ -1,6 +1,30 @@
 body {
     padding-top: 50px;
+    margin-top: 50px;
+    background-color: #f3f4f6;
 }
-nav{
-    background-color: lightgreen;
+.tnt{
+    background-color: rgb(92, 197, 153);
+}
+.wh{
+    background-color: white;
+}
+.p_img{
+    height: 350px;
+    width: 350px;
+}
+.v_img{
+    height: 450px;
+    width: 450px;
+}
+
+input[type="file"] {
+    display: none;
+}
+.custom-file-upload {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    display: inline-block;
+    padding: 6px 12px;
+    cursor: pointer;
 }

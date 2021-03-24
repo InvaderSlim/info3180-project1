@@ -2,51 +2,59 @@
 
 {% block main %}
 <h1 class="page-header">Add New Property</h1>
+{% include 'flash_messages.html' %}
 
 
-<div id="container">
+<div class="container wh p-5">
     {# Add the appropriate method and enctype attributes to the form tag to allow for file uploads #}
-    <form method="POST" action="{{ url_for('property') }}" enctype="multipart/form-data">
+    <form class="row g-3" method="POST" action="{{ url_for('property') }}" enctype="multipart/form-data">
 
         {# Add the file upload field as you learnt for Flask-WTF #}
-        <fieldset>
-            {{form.title.label}} <br>
-            {{form.title}}
-        </fieldset>
-        <fieldset>
-            {{form.description.label}} <br>
-            {{form.description}}
-        </fieldset>
-        <fieldset>
-            {{form.rooms.label}}
-            {{form.rooms}}
-        </fieldset>
-        <fieldset>
-            {{form.baths.label}}
-            {{form.baths}}
-        </fieldset>
-        <fieldset>
-            {{form.price.label}}
-            {{form.price}}
-        </fieldset>
-        <fieldset>
-            {{form.property_type.label}}
-            {{form.property_type}}
-        </fieldset>
-        <fieldset>
-            {{form.location.label}}
-            {{form.location}}
-        </fieldset>
-        <fieldset>
-            {{form.photo.label}}
-            {{form.photo}}
+        <div class="col-md-10">
+            <div for="inputTitle" class="form-label">{{form.title.label}}</div>
+            <div id="inputTitle">{{form.title(class="form-control")}}</div> 
+        </div>
+        <div class="col-md-10">
+            {{form.description.label(class="mt-3")}} <br>
+
+            <div >{{ form.description(class='form-control') }}</div>
+            <!-- {{form.description}} -->
+        </div><br><br>
+        <div class="col-md-5">
+            {{form.rooms.label(class="mt-3")}}
+            {{form.rooms(class='form-control')}}
+        </div>
+        <div class="col-md-5">
+            {{form.baths.label(class="mt-3")}}
+            {{form.baths(class='form-control')}}
+        </div>
+        <div class="col-md-5">
+            {{form.price.label(class="mt-3")}}
+            {{form.price(class='form-control')}}
+        </div>
+        <div class="col-md-5">
+            {{form.property_type.label(class="mt-3")}}
+            {{form.property_type(class='form-control')}}
+        </div>
+        <div class="col-md-5">
+            {{form.location.label(class="mt-3")}}
+            {{form.location(class='form-control')}}
+        </div>
+        <div class="col-8">
+            {{form.photo.label(class="mt-3")}}
+            <br>
+            <label for="file-upload" class="custom-file-upload">
+                Browse
+           </label>
+            {{form.photo(class='form-control', id="file-upload")}}
             <!-- <input type="file" name="upload" id="choose"> -->
-        </fieldset>
+        </div>
         
 
         {{ form.csrf_token }}
-
-        <button type="submit" name="submit" class="btn btn-primary">Add Property</button>
+        <div class="col-md-8">
+            <button type="submit" name="submit" class="btn btn-primary mt-3">Add Property</button>
+        </div>
         <!-- {{ form.submit(value='add property')}} -->
     </form>
 </div>

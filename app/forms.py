@@ -22,13 +22,13 @@ class NewPropertyForm(FlaskForm):
             DataRequired()
         ]
     )
-    baths = IntegerField(
+    baths = StringField(
         'No. of Bathrooms',
         [
             DataRequired()
         ]
     )
-    price = IntegerField(
+    price = StringField(
         'Price',
         [
             DataRequired()
